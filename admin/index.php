@@ -5,7 +5,7 @@ include_once 'includes/languages/english.php';
 ?>
 <?php
 
-echo lang('message') . lang('admin');
+echo lang('Message') .' '. lang('Admin');
 
 ?>
 <?php include_once $tpl .'footer.php'; ?>
