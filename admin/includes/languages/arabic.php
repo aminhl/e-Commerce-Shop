@@ -5,8 +5,6 @@ function lang( $phrase ){
         # Home Page
         'Message' => 'Welcome In Arabic',
         "Admin" => 'Arabic Admin',
-
-        # Settings
     );
     return $lang[$phrase];
 }
