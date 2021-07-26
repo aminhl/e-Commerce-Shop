@@ -10,7 +10,7 @@ $option = array(
 try {
     $con = new PDO($dsn,$user,$pass,$option);
     $con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-   // echo 'You Are Connected Welcome To Database';
+   # echo 'You Are Connected Welcome To Database';
 }
 
 catch (PDOException $e){
