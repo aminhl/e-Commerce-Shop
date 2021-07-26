@@ -1,7 +1,11 @@
 <?php
+session_start();
+$noNavbar = '';
+if(isset($_SESSION['username'])){
+    header('Location: dashboard.php');  # Redirect To Dashboard
+}
 include 'init.php';
-include_once  $tpl .'header.php';
-include_once 'includes/languages/english.php';
+
 
 # Check If The User Is Coming From Request
 if ($_SERVER['REQUEST_METHOD']=='POST'){
@@ -14,10 +18,10 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
     $stmt->execute(array($username,$hashedPass));
     $count = $stmt->rowCount();
     if ($count>0)
-        echo 'Welcome ' . $username;
+        $_SESSION['username'] = $username;  # Register Session Name
+        header('Location: dashboard.php');
+        exit();
 }
-
-
 ?>
 
 
