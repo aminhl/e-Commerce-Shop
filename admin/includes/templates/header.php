@@ -10,6 +10,5 @@
     <link rel="stylesheet" href="<?php echo $css;?>css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo $css;?>css/font-awesome.min.css">
    <link rel="stylesheet" href="<?php echo $css;?>css/backend.css">
-
 </head>
 <body>
