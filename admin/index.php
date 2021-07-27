@@ -15,13 +15,16 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
     $hashedPass = sha1($pass);
 
 # Check If The  User Exist In The Database
-    $stmt = $con->prepare("select UserName,Password FROM users WHERE Username = ? AND Password = ? ");
+    $stmt = $con->prepare("select UserID,UserName,Password FROM users WHERE Username = ? AND Password = ? AND GroupID = 1 LIMIT 1");
     $stmt->execute(array($username,$hashedPass));
+    $row = $stmt->fetch();
     $count = $stmt->rowCount();
     if ($count>0)
         $_SESSION['username'] = $username;  # Register Session Name
+        $_SESSION['ID'] = $row['UserID'];   # Register Session ID
         header('Location: dashboard.php');
         exit();
+
 }
 ?>
 
