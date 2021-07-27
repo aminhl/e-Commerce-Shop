@@ -70,6 +70,7 @@ body{
     transition: 0.3s;
 }
 
+.dropdown-menu > li > a:focus,
 .dropdown-menu > li > a:hover{
     padding-left: 30px;
 }
