@@ -26,7 +26,8 @@ if (isset($_SESSION['username'])) {
                 $count = $stmt->rowCount();
                 if($count > 0){   ?>
                     <h1 class="text-center">Edit Member</h1>
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" action="?do=Update" method="post">
+                        <input type="hidden" name="userid" value="<?php echo $userid;?>">
                         <!--Start Username Filed-->
                         <div class="form-group form-group-lg">
                             <label class="col-sm-2 control-label">Username</label>
@@ -73,6 +74,24 @@ if (isset($_SESSION['username'])) {
                 else {
                     echo 'There\'s No Such Id';
                 }
+    }
+    elseif ($do == 'Update'){
+      echo  '<h1 class="text-center">Update Member</h1>';
+      if ($_SERVER['REQUEST_METHOD']=='POST'){
+          # Get Variables From The Form
+        $id = $_POST['userid'];
+        $user = $_POST['username'];
+        $email = $_POST['email'];
+        $name = $_POST['full'];
+
+      # Update Data Base
+          $stmt = $con->prepare("UPDATE users SET UserName = ? ,Email = ? , FullName = ? WHERE UserID = ? ");
+          $stmt->execute(array($user,$email,$name,$id));
+          $stmt->rowCount() . 'Record Updated';
+      }
+      else{
+          echo 'U Re Not Authorized To Be Here';
+      }
     }
     include_once $tpl . 'footer.php';
 } else {
