@@ -40,7 +40,8 @@ if (isset($_SESSION['username'])) {
                         <div class="form-group form-group-lg">
                             <label class="col-sm-2 control-label">Password</label>
                             <div class="col-sm-10 col-md-6">
-                                <input class="form-control" type="password" name="password"  autocomplete="new-password">
+                                <input type="hidden" name="oldpassword" value="<?php echo $row['Password']; ?>">
+                                <input class="form-control" type="password" name="newpassword"  autocomplete="new-password">
                             </div>
                         </div>
                         <!--End Password Filed-->
@@ -84,10 +85,19 @@ if (isset($_SESSION['username'])) {
         $email = $_POST['email'];
         $name = $_POST['full'];
 
+        # Password Trick
+        $pass = '';
+          if(empty($_POST['newpassword'])){
+              $pass = $_POST['oldpassword'];
+          }
+          else{
+              $pass = sha1($_POST['newpassword']);
+          }
+
       # Update Data Base
-          $stmt = $con->prepare("UPDATE users SET UserName = ? ,Email = ? , FullName = ? WHERE UserID = ? ");
-          $stmt->execute(array($user,$email,$name,$id));
-          $stmt->rowCount() . 'Record Updated';
+          $stmt = $con->prepare("UPDATE users SET UserName = ? ,Email = ? , FullName = ? , Password = ? WHERE UserID = ? ");
+          $stmt->execute(array($user,$email,$name,$pass,$id));
+         echo  $stmt->rowCount() . ' Record Updated';
       }
       else{
           echo 'U Re Not Authorized To Be Here';
