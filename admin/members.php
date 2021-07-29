@@ -15,7 +15,58 @@ if (isset($_SESSION['username'])) {
     $do = isset($_GET['do']) ? $_GET['do'] : 'Manage';
     # Start Manage Page
     if($do == 'Manage'){
+        echo 'Welcome To Manage Page';
+        echo '<a href="?do=Add">Add Member</a>';
+    }
+    elseif ($do == "Add"){ ?>
+        <div class="container">
+            <h1 class="text-center">Add Member</h1>
+            <form class="form-horizontal" action="?do=Insert" method="post">
+                <!--Start Username Filed-->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Username</label>
+                    <div class="col-sm-10 col-md-6">
+                        <input class="form-control" type="text" name="username" autocomplete="off" required="required" placeholder="Type Your Username">
+                    </div>
+                </div>
+                <!--End Username Filed-->
+                <!--Start Password Filed-->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-10 col-md-6">
+                        <input class="form-control" type="password" name="password" autocomplete="new-password"  required="required" placeholder="Type Your Password">
+                    </div>
+                </div>
+                <!--End Password Filed-->
+                <!--Start Email Filed-->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10 col-md-6">
+                        <input class="form-control" type="email"  name="email" required="required" placeholder="Type Your Email">
+                    </div>
+                </div>
+                <!--End Email Filed-->
+                <!--Start Full Name Filed-->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Full Name</label>
+                    <div class="col-sm-10 col-md-6">
+                        <input class="form-control" type="text" name="full" required="required" placeholder="Type Your Full Name">
+                    </div>
+                </div>
+                <!--End Full Name Filed-->
+                <!--Start Submit Filed-->
+                <div class="form-group form-group-lg">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input class="btn btn-primary" type="submit" value="Add Member">
+                    </div>
+                </div>
+                <!--End Submit Field-->
+            </form>
+        </div>
 
+    <?php }
+    elseif($do == 'Insert'){
+        echo $_POST['username'] . $_POST['password'] . $_POST['email'] . $_POST['full'];
     }
     elseif($do == 'Edit'){ ?>
          <?php
@@ -25,51 +76,52 @@ if (isset($_SESSION['username'])) {
                 $row = $stmt->fetch();
                 $count = $stmt->rowCount();
                 if($count > 0){   ?>
-                    <h1 class="text-center">Edit Member</h1>
-                    <form class="form-horizontal" action="?do=Update" method="post">
-                        <input type="hidden" name="userid" value="<?php echo $userid;?>">
-                        <!--Start Username Filed-->
-                        <div class="form-group form-group-lg">
-                            <label class="col-sm-2 control-label">Username</label>
-                            <div class="col-sm-10 col-md-6">
-                                <input class="form-control" type="text" name="username" value="<?php echo $row['UserName']; ?>" autocomplete="off" required="required">
+                    <div class="container">
+                        <h1 class="text-center">Edit Member</h1>
+                        <form class="form-horizontal" action="?do=Update" method="post">
+                            <input type="hidden" name="userid" value="<?php echo $userid;?>">
+                            <!--Start Username Filed-->
+                            <div class="form-group form-group-lg">
+                                <label class="col-sm-2 control-label">Username</label>
+                                <div class="col-sm-10 col-md-6">
+                                    <input class="form-control" type="text" name="username" value="<?php echo $row['UserName']; ?>" autocomplete="off" required="required">
+                                </div>
                             </div>
-                        </div>
-                        <!--End Username Filed-->
-                        <!--Start Password Filed-->
-                        <div class="form-group form-group-lg">
-                            <label class="col-sm-2 control-label">Password</label>
-                            <div class="col-sm-10 col-md-6">
-                                <input type="hidden" name="oldpassword" value="<?php echo $row['Password']; ?>">
-                                <input class="form-control" type="password" name="newpassword"  autocomplete="new-password" placeholder="Leave Blank If You Wont To Change">
+                            <!--End Username Filed-->
+                            <!--Start Password Filed-->
+                            <div class="form-group form-group-lg">
+                                <label class="col-sm-2 control-label">Password</label>
+                                <div class="col-sm-10 col-md-6">
+                                    <input type="hidden" name="oldpassword" value="<?php echo $row['Password']; ?>">
+                                    <input class="form-control" type="password" name="newpassword"  autocomplete="new-password" placeholder="Leave Blank If You Wont To Change">
+                                </div>
                             </div>
-                        </div>
-                        <!--End Password Filed-->
-                        <!--Start Email Filed-->
-                        <div class="form-group form-group-lg">
-                            <label class="col-sm-2 control-label">Email</label>
-                            <div class="col-sm-10 col-md-6">
-                                <input class="form-control" type="email" value="<?php echo $row['Email']; ?>" name="email" required="required">
+                            <!--End Password Filed-->
+                            <!--Start Email Filed-->
+                            <div class="form-group form-group-lg">
+                                <label class="col-sm-2 control-label">Email</label>
+                                <div class="col-sm-10 col-md-6">
+                                    <input class="form-control" type="email" value="<?php echo $row['Email']; ?>" name="email" required="required">
+                                </div>
                             </div>
-                        </div>
-                        <!--End Email Filed-->
-                        <!--Start Full Name Filed-->
-                        <div class="form-group form-group-lg">
-                            <label class="col-sm-2 control-label">Full Name</label>
-                            <div class="col-sm-10 col-md-6">
-                                <input class="form-control" type="text" value="<?php echo $row['FullName']; ?>" name="full" required="required">
+                            <!--End Email Filed-->
+                            <!--Start Full Name Filed-->
+                            <div class="form-group form-group-lg">
+                                <label class="col-sm-2 control-label">Full Name</label>
+                                <div class="col-sm-10 col-md-6">
+                                    <input class="form-control" type="text" value="<?php echo $row['FullName']; ?>" name="full" required="required">
+                                </div>
                             </div>
-                        </div>
-                        <!--End Full Name Filed-->
-                        <!--Start Submit Filed-->
-                        <div class="form-group form-group-lg">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <input class="btn btn-primary" type="submit" value="Save">
+                            <!--End Full Name Filed-->
+                            <!--Start Submit Filed-->
+                            <div class="form-group form-group-lg">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <input class="btn btn-primary" type="submit" value="Save">
+                                </div>
                             </div>
-                        </div>
-                        <!--End Submit Field-->
-                    </form>
-                    <div class="container"></div>
+                            <!--End Submit Field-->
+                        </form>
+                    </div>
 
     <?php } # Count's If
                 else {
