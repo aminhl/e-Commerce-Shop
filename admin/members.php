@@ -32,7 +32,7 @@ if (isset($_SESSION['username'])) {
                         <div class="form-group form-group-lg">
                             <label class="col-sm-2 control-label">Username</label>
                             <div class="col-sm-10 col-md-6">
-                                <input class="form-control" type="text" name="username" value="<?php echo $row['UserName']; ?>" autocomplete="off ">
+                                <input class="form-control" type="text" name="username" value="<?php echo $row['UserName']; ?>" autocomplete="off" required="required">
                             </div>
                         </div>
                         <!--End Username Filed-->
@@ -41,7 +41,7 @@ if (isset($_SESSION['username'])) {
                             <label class="col-sm-2 control-label">Password</label>
                             <div class="col-sm-10 col-md-6">
                                 <input type="hidden" name="oldpassword" value="<?php echo $row['Password']; ?>">
-                                <input class="form-control" type="password" name="newpassword"  autocomplete="new-password">
+                                <input class="form-control" type="password" name="newpassword"  autocomplete="new-password" placeholder="Leave Blank If You Wont To Change">
                             </div>
                         </div>
                         <!--End Password Filed-->
@@ -49,7 +49,7 @@ if (isset($_SESSION['username'])) {
                         <div class="form-group form-group-lg">
                             <label class="col-sm-2 control-label">Email</label>
                             <div class="col-sm-10 col-md-6">
-                                <input class="form-control" type="email" value="<?php echo $row['Email']; ?>" name="email">
+                                <input class="form-control" type="email" value="<?php echo $row['Email']; ?>" name="email" required="required">
                             </div>
                         </div>
                         <!--End Email Filed-->
@@ -57,7 +57,7 @@ if (isset($_SESSION['username'])) {
                         <div class="form-group form-group-lg">
                             <label class="col-sm-2 control-label">Full Name</label>
                             <div class="col-sm-10 col-md-6">
-                                <input class="form-control" type="text" value="<?php echo $row['FullName']; ?>" name="full">
+                                <input class="form-control" type="text" value="<?php echo $row['FullName']; ?>" name="full" required="required">
                             </div>
                         </div>
                         <!--End Full Name Filed-->
@@ -78,6 +78,7 @@ if (isset($_SESSION['username'])) {
     }
     elseif ($do == 'Update'){
       echo  '<h1 class="text-center">Update Member</h1>';
+      echo '<div class="container">';
       if ($_SERVER['REQUEST_METHOD']=='POST'){
           # Get Variables From The Form
         $id = $_POST['userid'];
@@ -86,22 +87,39 @@ if (isset($_SESSION['username'])) {
         $name = $_POST['full'];
 
         # Password Trick
-        $pass = '';
-          if(empty($_POST['newpassword'])){
-              $pass = $_POST['oldpassword'];
-          }
-          else{
-              $pass = sha1($_POST['newpassword']);
+        $pass = (empty($_POST['newpassword'])) ? $_POST['oldpassword'] : sha1($_POST['newpassword']);
+
+        # Validation Form
+        $formErrors = array();
+        if (empty($user)){
+            $formErrors[] = '<div class="alert alert-danger">Username Can\'t Be <strong>Empty</strong></div>';
+        }
+        if (strlen($user)<4 || strlen($user)>20){
+            $formErrors[] = '<div class="alert alert-danger">Username Must Be Between<strong> 4 And 20 Characters</strong></div>';
+        }
+        if(empty($email)){
+            $formErrors[] = '<div class="alert alert-danger">Email Can\'t Be <strong>Empty</strong></div>';
+        }
+        if (empty($name)){
+            $formErrors[] = '<div class="alert alert-danger">Full Name Can\'t Be <strong>Empty</strong></div>';
+        }
+
+        foreach ($formErrors as $error){
+            echo $error ;
           }
 
-      # Update Data Base
-          $stmt = $con->prepare("UPDATE users SET UserName = ? ,Email = ? , FullName = ? , Password = ? WHERE UserID = ? ");
-          $stmt->execute(array($user,$email,$name,$pass,$id));
-         echo  $stmt->rowCount() . ' Record Updated';
+        # Check If There's No Error
+          if (empty($formErrors)){
+              # Update Data Base
+              $stmt = $con->prepare("UPDATE users SET UserName = ? ,Email = ? , FullName = ? , Password = ? WHERE UserID = ? ");
+              $stmt->execute(array($user,$email,$name,$pass,$id));
+              echo '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Updated </div>';
+          }
       }
       else{
           echo 'U Re Not Authorized To Be Here';
       }
+      echo '</div>';
     }
     include_once $tpl . 'footer.php';
 } else {

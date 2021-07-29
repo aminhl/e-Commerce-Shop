@@ -5,6 +5,14 @@ body{
     font-size: 16px;
 }
 
+.asterisk{
+    position: absolute;
+    top: 8px;
+    right: 30px;
+    font-size: 30px;
+    color: #d20707;
+}
+
 /* End Main Rules */
 
 /* Start Login */
@@ -74,6 +82,12 @@ body{
 .dropdown-menu > li > a:hover{
     padding-left: 30px;
 }
+
+.form-control{
+    position: relative;
+}
+
+
 
 /*End Start Bootstrap Edit*/
 

@@ -19,12 +19,12 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
     $stmt->execute(array($username,$hashedPass));
     $row = $stmt->fetch();
     $count = $stmt->rowCount();
-    if ($count>0)
+    if ($count>0) {
         $_SESSION['username'] = $username;  # Register Session Name
         $_SESSION['ID'] = $row['UserID'];   # Register Session ID
         header('Location: dashboard.php');
         exit();
-
+    }
 }
 ?>
 
