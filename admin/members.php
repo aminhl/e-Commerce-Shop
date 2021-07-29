@@ -34,7 +34,8 @@ if (isset($_SESSION['username'])) {
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Password</label>
                     <div class="col-sm-10 col-md-6">
-                        <input class="form-control" type="password" name="password" autocomplete="new-password"  required="required" placeholder="Type Your Password">
+                        <input class="password form-control" type="password" name="password" autocomplete="new-password"  required="required" placeholder="Type Your Password">
+                        <i class="show-pass fa fa-eye fa-2x"></i>
                     </div>
                 </div>
                 <!--End Password Filed-->
@@ -66,7 +67,51 @@ if (isset($_SESSION['username'])) {
 
     <?php }
     elseif($do == 'Insert'){
-        echo $_POST['username'] . $_POST['password'] . $_POST['email'] . $_POST['full'];
+
+        if ($_SERVER['REQUEST_METHOD']=='POST'){
+            echo  '<h1 class="text-center">Add Member</h1>';
+            echo '<div class="container">';
+            # Get Variables From The Form
+            $user = $_POST['username'];
+            $pass = $_POST['password'];
+            $email = $_POST['email'];
+            $name = $_POST['full'];
+
+            $hashedPass = sha1($_POST['password']);
+
+            # Validation Form
+            $formErrors = array();
+            if (empty($user)){
+                $formErrors[] = 'Username Can\'t Be <strong>Empty</strong>';
+            }
+            if (strlen($user)<4 || strlen($user)>20){
+                $formErrors[] = 'Username Must Be Between<strong> 4 And 20 Characters</strong>';
+            }
+            if(empty($pass)){
+                $formErrors[] = 'Password Can\'t Be <strong>Empty</strong>';
+            }
+            if(empty($email)){
+                $formErrors[] = 'Email Can\'t Be <strong>Empty</strong>';
+            }
+            if (empty($name)){
+                $formErrors[] = 'Full Name Can\'t Be <strong>Empty</strong>';
+            }
+
+            foreach ($formErrors as $error){
+                echo '<div class="alert alert-danger">' . $error . '</div>';
+            }
+
+            # Check If There's No Error
+            if (empty($formErrors)){
+                # Insert Data Base
+
+                echo '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Updated </div>';
+            }
+        }
+        else{
+            echo 'U Re Not Authorized To Be Here';
+        }
+        echo '</div>';
     }
     elseif($do == 'Edit'){ ?>
          <?php
@@ -142,22 +187,22 @@ if (isset($_SESSION['username'])) {
         $pass = (empty($_POST['newpassword'])) ? $_POST['oldpassword'] : sha1($_POST['newpassword']);
 
         # Validation Form
-        $formErrors = array();
-        if (empty($user)){
-            $formErrors[] = '<div class="alert alert-danger">Username Can\'t Be <strong>Empty</strong></div>';
-        }
-        if (strlen($user)<4 || strlen($user)>20){
-            $formErrors[] = '<div class="alert alert-danger">Username Must Be Between<strong> 4 And 20 Characters</strong></div>';
-        }
-        if(empty($email)){
-            $formErrors[] = '<div class="alert alert-danger">Email Can\'t Be <strong>Empty</strong></div>';
-        }
-        if (empty($name)){
-            $formErrors[] = '<div class="alert alert-danger">Full Name Can\'t Be <strong>Empty</strong></div>';
-        }
+          $formErrors = array();
+          if (empty($user)){
+              $formErrors[] = 'Username Can\'t Be <strong>Empty</strong>';
+          }
+          if (strlen($user)<4 || strlen($user)>20){
+              $formErrors[] = 'Username Must Be Between<strong> 4 And 20 Characters</strong>';
+          }
+          if(empty($email)){
+              $formErrors[] = 'Email Can\'t Be <strong>Empty</strong>';
+          }
+          if (empty($name)){
+              $formErrors[] = 'Full Name Can\'t Be <strong>Empty</strong>';
+          }
 
-        foreach ($formErrors as $error){
-            echo $error ;
+          foreach ($formErrors as $error){
+              echo '<div class="alert alert-danger">' . $error . '</div>';
           }
 
         # Check If There's No Error
