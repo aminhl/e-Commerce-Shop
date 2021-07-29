@@ -104,7 +104,13 @@ if (isset($_SESSION['username'])) {
             # Check If There's No Error
             if (empty($formErrors)){
                 # Insert Data Base
-
+                $stmt = $con->prepare("INSERT INTO users(UserName,Password,Email,FullName) VALUES(:user, :pass, :email, :name)");
+                $stmt->execute(array(
+                        'user' => $user,
+                        'pass' => $hashedPass,
+                        'email' => $email,
+                        'name' => $name,
+                ));
                 echo '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Updated </div>';
             }
         }
