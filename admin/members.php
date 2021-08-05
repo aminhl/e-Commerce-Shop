@@ -14,8 +14,13 @@ if (isset($_SESSION['username'])) {
     include_once 'init.php';
     $do = isset($_GET['do']) ? $_GET['do'] : 'Manage';
     # Start Manage Page
-    if($do == 'Manage'){ ?>
-         <h1 class="text-center">Add Member</h1>
+    if($do == 'Manage'){
+    # Select All User Expect Admins
+        $stmt = $con->prepare("SELECT * FROM users WHERE GroupID != 1 ");
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+        ?>
+         <h1 class="text-center">Manage Members</h1>
         <div class="container">
             <div class="table-responsive">
                 <table class="main-table table table-bordered text-center">
@@ -24,9 +29,23 @@ if (isset($_SESSION['username'])) {
                         <td>Username</td>
                         <td>Email</td>
                         <td>Full Name</td>
-                        <td>Registred Date</td>
+                        <td>Register Date</td>
                         <td>Control</td>
                     </tr>
+
+                  <?php
+                  foreach ($rows as $row) {
+                      echo '<tr>';
+                      echo '<td>' . $row["UserID"] . '</td>';
+                      echo '<td> ' . $row["UserName"] . '</td>';
+                      echo '<td> ' . $row["Email"] . '</td>';
+                      echo '<td> ' . $row["FullName"] . '</td>';
+                      echo '<td> </td>';
+                      echo '<td>   <a href="members.php?do=Edit&userid='. $row["UserID"] .'" class="btn btn-success">Edit</a> <a href="#" class="btn btn-danger">Delete</a></td>';
+                      echo '</tr>';
+                  }
+
+                  ?>
                     <tr>
                         <td></td>
                         <td></td>
@@ -38,50 +57,7 @@ if (isset($_SESSION['username'])) {
                             <a href="#" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <a href="#" class="btn btn-success">Edit</a>
-                            <a href="#" class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <a href="#" class="btn btn-success">Edit</a>
-                            <a href="#" class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <a href="#" class="btn btn-success">Edit</a>
-                            <a href="#" class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <a href="#" class="btn btn-success">Edit</a>
-                            <a href="#" class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
+
                 </table>
             </div>
            <a href="?do=Add" class="btn btn-primary"><i class="fa fa-plus"> </i> Add Member</a>
