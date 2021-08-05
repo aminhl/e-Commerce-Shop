@@ -106,9 +106,22 @@ h1{
     right: -30px;
 }
 
-.main-table tr:first-child{
+.main-table{
+    box-shadow: 0 3px 10px #ccc;
+}
+
+.main-table td{
+    background-color: #fff;
+    vertical-align: middle !important;
+}
+
+.main-table tr:first-child td{
     background-color: #333;
     color: #fff;
+}
+
+.main-table .btn{
+    padding: 3px 10px;
 }
 
 /* End Members Page */
