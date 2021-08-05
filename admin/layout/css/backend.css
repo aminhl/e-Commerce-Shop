@@ -106,4 +106,9 @@ h1{
     right: -30px;
 }
 
+.main-table tr:first-child{
+    background-color: #333;
+    color: #fff;
+}
+
 /* End Members Page */

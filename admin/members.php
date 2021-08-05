@@ -14,13 +14,82 @@ if (isset($_SESSION['username'])) {
     include_once 'init.php';
     $do = isset($_GET['do']) ? $_GET['do'] : 'Manage';
     # Start Manage Page
-    if($do == 'Manage'){
-        echo 'Welcome To Manage Page';
-        echo '<a href="?do=Add">Add Member</a>';
-    }
-    elseif ($do == "Add"){ ?>
+    if($do == 'Manage'){ ?>
+         <h1 class="text-center">Add Member</h1>
         <div class="container">
-            <h1 class="text-center">Add Member</h1>
+            <div class="table-responsive">
+                <table class="main-table table table-bordered text-center">
+                    <tr>
+                        <td>#ID</td>
+                        <td>Username</td>
+                        <td>Email</td>
+                        <td>Full Name</td>
+                        <td>Registred Date</td>
+                        <td>Control</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <a href="#" class="btn btn-success">Edit</a>
+                            <a href="#" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <a href="#" class="btn btn-success">Edit</a>
+                            <a href="#" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <a href="#" class="btn btn-success">Edit</a>
+                            <a href="#" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <a href="#" class="btn btn-success">Edit</a>
+                            <a href="#" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <a href="#" class="btn btn-success">Edit</a>
+                            <a href="#" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+           <a href="?do=Add" class="btn btn-primary"><i class="fa fa-plus"> </i> Add Member</a>
+        </div>
+    <?php }
+    elseif ($do == "Add"){ ?>
+        <h1 class="text-center">Add Member</h1>
+        <div class="container">
             <form class="form-horizontal" action="?do=Insert" method="post">
                 <!--Start Username Filed-->
                 <div class="form-group form-group-lg">
