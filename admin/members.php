@@ -41,22 +41,11 @@ if (isset($_SESSION['username'])) {
                       echo '<td> ' . $row["Email"] . '</td>';
                       echo '<td> ' . $row["FullName"] . '</td>';
                       echo '<td> </td>';
-                      echo '<td>   <a href="members.php?do=Edit&userid='. $row["UserID"] .'" class="btn btn-success">Edit</a> <a href="#" class="btn btn-danger">Delete</a></td>';
+                      echo '<td>   <a href="members.php?do=Edit&userid='. $row["UserID"] .'" class="btn btn-success">Edit</a> <a href="members.php?do=Delete&userid='. $row["UserID"] .'" class="btn btn-danger confirm">Delete</a></td>';
                       echo '</tr>';
                   }
 
                   ?>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <a href="#" class="btn btn-success">Edit</a>
-                            <a href="#" class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
 
                 </table>
             </div>
@@ -160,7 +149,8 @@ if (isset($_SESSION['username'])) {
             }
         }
         else{
-            echo 'U Re Not Authorized To Be Here';
+            $errorMsg =  'U Can\'t Browse This Page Directly';
+            redirectHome($errorMsg,3);
         }
         echo '</div>';
     }
@@ -267,7 +257,25 @@ if (isset($_SESSION['username'])) {
       else{
           echo 'U Re Not Authorized To Be Here';
       }
-      echo '</div>';
+        echo '</div>';
+    }
+    elseif ($do == 'Delete'){
+        echo  '<h1 class="text-center">Add Member</h1>';
+        echo '<div class="container">';
+        $userid = (isset($_GET['userid']) && is_numeric($_GET['userid'])) ?  intval($_GET['userid']) : 0;
+        $stmt = $con->prepare("SELECT * FROM users WHERE UserId = $userid LIMIT 1");
+        $stmt->execute(array($userid));
+        $count = $stmt->rowCount();
+        if($count > 0){
+            $stmt = $con->prepare("DELETE FROM users WHERE UserID = :userid");
+            $stmt->bindParam(":userid",$userid);
+            $stmt->execute();
+            echo '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Deleted </div>';
+        }
+        else{
+            echo 'This Id Doesn\'t Exist';
+        }
+        echo '</div>';
     }
     include_once $tpl . 'footer.php';
 } else {
