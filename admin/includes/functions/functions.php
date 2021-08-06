@@ -12,12 +12,21 @@ function getTitle(){
     }
 }
 
-# Home Redirect Function : Parameters : $errorMsg => Echo The Error Msg , $seconds = Time Before Redirecting v1.0
+# Home Redirect Function : Parameters : $errorMsg => Echo The Error Msg , $seconds => Time Before Redirecting v1.0
+# Home Redirect Function : Parameters : $theMsg  => Echo The Msg , $url => Link That Will Redirect To , $seconds => Time Before Redirecting v2.0
 
-function redirectHome ($errorMsg,$seconds =3){
-    echo "<div class='alert alert-danger'>$errorMsg</div>";
-    echo "<div class='alert alert-info'>You Will Be Redirected  After $seconds Seconds.</div>";
-    header("refresh:$seconds;url=index.php");
+function redirectHome ($errorMsg,$url = null ,$seconds = 3){
+    if ($url === null){
+        $url = 'index.php';
+        $link = 'HomePage';
+    }
+    else{
+        $url =  (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER']!= '') ? $_SERVER['HTTP_REFERER'] : 'index.php';
+        $link = 'Previous Page';
+    }
+    echo $errorMsg;
+    echo "<div class='alert alert-info'>You Will Be Redirected To $link After $seconds Seconds.</div>";
+    header("refresh:$seconds;url=$url");
     exit();
 }
 

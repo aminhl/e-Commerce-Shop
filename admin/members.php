@@ -157,8 +157,8 @@ if (isset($_SESSION['username'])) {
             }
         }
         else{
-            $errorMsg =  'U Can\'t Browse This Page Directly';
-            redirectHome($errorMsg,3);
+            $errorMsg =  '<div class="alert alert-danger">U Can\'t Browse This Page Directly</div>';
+            redirectHome($errorMsg);
         }
         echo '</div>';
     }
@@ -259,7 +259,8 @@ if (isset($_SESSION['username'])) {
               # Update Data Base
               $stmt = $con->prepare("UPDATE users SET UserName = ? ,Email = ? , FullName = ? , Password = ? WHERE UserID = ? ");
               $stmt->execute(array($user,$email,$name,$pass,$id));
-              echo '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Updated </div>';
+              $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Updated </div>';
+              redirectHome($theMsg,'Previous');
           }
       }
       else{
