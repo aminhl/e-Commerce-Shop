@@ -2,14 +2,15 @@
 session_start();
 if(isset($_SESSION['username'])){
   $pageTitle = 'Dashboard';
-  include_once 'init.php'; ?>
+  include_once 'init.php';
+  ?>
   <!-- Start Dashboard Page-->
     <div class="container home-stats text-center">
         <h1>Dashboard</h1>
         <div class="row">
             <div class="col-md-3">
                 <div class="stat">Total Members
-                    <span>200</span>
+                    <span><?php echo calculateItems("UserID","users")?></span>
                 </div>
             </div>
             <div class="col-md-3">

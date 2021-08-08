@@ -43,3 +43,14 @@ function checkItem($select,$from,$value){
     return $count;
 }
 
+# Function To Calculate Items In DataBase v1.0
+# $item : Item To Count
+# $table : Table To Choose From
+function calculateItems($item,$table){
+    global $con;
+    $stmt2 = $con->prepare('SELECT COUNT(UserID) FROM users');
+    $stmt2->execute();
+    return $stmt2->fetchColumn();
+}
+
+
