@@ -140,7 +140,8 @@ if (isset($_SESSION['username'])) {
                 $check = checkItem('UserName','users',$user);
 
                 if ($check == 1){
-                    echo '<div class="alert alert-danger">This User Already Exist' . '</div>';
+                    $theMsg = '<div class="alert alert-danger">This User Already Exist' . '</div>';
+                    redirectHome($theMsg,'Previous');
                 }
 
               else{
@@ -279,10 +280,9 @@ if (isset($_SESSION['username'])) {
         echo  '<h1 class="text-center">Delete Member</h1>';
         echo '<div class="container">';
         $userid = (isset($_GET['userid']) && is_numeric($_GET['userid'])) ?  intval($_GET['userid']) : 0;
-        $stmt = $con->prepare("SELECT * FROM users WHERE UserId = $userid LIMIT 1");
-        $stmt->execute(array($userid));
-        $count = $stmt->rowCount();
-        if($count > 0){
+        $check = checkItem('UserID','users',$userid);
+
+        if($check > 0){
             $stmt = $con->prepare("DELETE FROM users WHERE UserID = :userid");
             $stmt->bindParam(":userid",$userid);
             $stmt->execute();
