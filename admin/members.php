@@ -152,13 +152,16 @@ if (isset($_SESSION['username'])) {
                       'email' => $email,
                       'name' => $name,
                   ));
-                  echo '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Updated </div>';
+                  $theMsg =  '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Inserted </div>';
+                  redirectHome($theMsg,'Previous');
               }
             }
         }
         else{
-            $errorMsg =  '<div class="alert alert-danger">U Can\'t Browse This Page Directly</div>';
-            redirectHome($errorMsg);
+            echo '<div class="container">';
+            $theMsg =  '<div class="alert alert-danger">U Can\'t Browse This Page Directly</div>';
+            redirectHome($theMsg);
+            echo '</div>';
         }
         echo '</div>';
     }
@@ -219,7 +222,10 @@ if (isset($_SESSION['username'])) {
 
     <?php } # Count's If
                 else {
-                    echo 'There\'s No Such Id';
+                    echo '<div class="container">';
+                    $theMsg =  '<div class="alert alert-danger">There\'s No Such Id </div>';
+                    redirectHome($theMsg);
+                    echo '</div>';
                 }
     }
     elseif ($do == 'Update'){
@@ -264,12 +270,13 @@ if (isset($_SESSION['username'])) {
           }
       }
       else{
-          echo 'U Re Not Authorized To Be Here';
+         $theMsg = '<div class="alert alert-danger">U Re Not Authorized To Be Here</div>';
+         redirectHome($theMsg);
       }
         echo '</div>';
     }
     elseif ($do == 'Delete'){
-        echo  '<h1 class="text-center">Add Member</h1>';
+        echo  '<h1 class="text-center">Delete Member</h1>';
         echo '<div class="container">';
         $userid = (isset($_GET['userid']) && is_numeric($_GET['userid'])) ?  intval($_GET['userid']) : 0;
         $stmt = $con->prepare("SELECT * FROM users WHERE UserId = $userid LIMIT 1");
@@ -279,10 +286,12 @@ if (isset($_SESSION['username'])) {
             $stmt = $con->prepare("DELETE FROM users WHERE UserID = :userid");
             $stmt->bindParam(":userid",$userid);
             $stmt->execute();
-            echo '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Deleted </div>';
+            $theMsg =  '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Deleted </div>';
+            redirectHome($theMsg);
         }
         else{
-            echo 'This Id Doesn\'t Exist';
+            $theMsg =  '<div class="alert alert-danger">This Id Doesn\'t Exist</div>';
+            redirectHome($theMsg);
         }
         echo '</div>';
     }
