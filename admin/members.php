@@ -40,7 +40,7 @@ if (isset($_SESSION['username'])) {
                       echo '<td> ' . $row["UserName"] . '</td>';
                       echo '<td> ' . $row["Email"] . '</td>';
                       echo '<td> ' . $row["FullName"] . '</td>';
-                      echo '<td> </td>';
+                      echo '<td>' . $row["Date"] . '</td>';
                       echo '<td>   <a href="members.php?do=Edit&userid='. $row["UserID"] .'" class="btn btn-success"><i class="fa fa-edit"></i> Edit</a> <a href="members.php?do=Delete&userid='. $row["UserID"] .'" class="btn btn-danger confirm"><i class="fa fa-close"></i> Delete</a></td>';
                       echo '</tr>';
                   }
@@ -145,7 +145,7 @@ if (isset($_SESSION['username'])) {
 
               else{
                   # Insert Data Base
-                  $stmt = $con->prepare("INSERT INTO users(UserName,Password,Email,FullName) VALUES(:user, :pass, :email, :name)");
+                  $stmt = $con->prepare("INSERT INTO users(UserName,Password,Email,FullName,Date) VALUES(:user, :pass, :email, :name, now())");
                   $stmt->execute(array(
                       'user' => $user,
                       'pass' => $hashedPass,
