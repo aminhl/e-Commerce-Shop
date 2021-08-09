@@ -15,8 +15,13 @@ if (isset($_SESSION['username'])) {
     $do = isset($_GET['do']) ? $_GET['do'] : 'Manage';
     # Start Manage Page
     if($do == 'Manage'){
+
+        $query = '';
+        if (isset($_GET['page']) && $_GET['page'] == 'Pending' ){
+            $query = 'AND RegStatus = 0';
+        }
     # Select All User Expect Admins
-        $stmt = $con->prepare("SELECT * FROM users WHERE GroupID != 1 ");
+        $stmt = $con->prepare("SELECT * FROM users WHERE GroupID != 1 $query");
         $stmt->execute();
         $rows = $stmt->fetchAll();
         ?>
@@ -41,7 +46,11 @@ if (isset($_SESSION['username'])) {
                       echo '<td> ' . $row["Email"] . '</td>';
                       echo '<td> ' . $row["FullName"] . '</td>';
                       echo '<td>' . $row["Date"] . '</td>';
-                      echo '<td>   <a href="members.php?do=Edit&userid='. $row["UserID"] .'" class="btn btn-success"><i class="fa fa-edit"></i> Edit</a> <a href="members.php?do=Delete&userid='. $row["UserID"] .'" class="btn btn-danger confirm"><i class="fa fa-close"></i> Delete</a></td>';
+                      echo '<td>   <a href="members.php?do=Edit&userid='. $row["UserID"] .'" class="btn btn-success"><i class="fa fa-edit"></i> Edit</a> <a href="members.php?do=Delete&userid='. $row["UserID"] .'" class="btn btn-danger confirm"><i class="fa fa-close"></i> Delete</a>';
+                        if ($row['RegStatus']==0){
+                            echo '<a href="members.php?do=Activate&userid='. $row["UserID"] .'" class="btn btn-info activate"><i class="fa fa-close"></i> Activate</a>';
+                        }
+                      echo  '</td>';
                       echo '</tr>';
                   }
                   ?>
@@ -287,6 +296,24 @@ if (isset($_SESSION['username'])) {
             $stmt->bindParam(":userid",$userid);
             $stmt->execute();
             $theMsg =  '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Deleted </div>';
+            redirectHome($theMsg);
+        }
+        else{
+            $theMsg =  '<div class="alert alert-danger">This Id Doesn\'t Exist</div>';
+            redirectHome($theMsg);
+        }
+        echo '</div>';
+    }
+    elseif ($do == 'Activate'){
+        echo  '<h1 class="text-center">Activate Member</h1>';
+        echo '<div class="container">';
+        $userid = (isset($_GET['userid']) && is_numeric($_GET['userid'])) ?  intval($_GET['userid']) : 0;
+        $check = checkItem('UserID','users',$userid);
+
+        if($check > 0){
+            $stmt = $con->prepare("UPDATE users SET RegStatus = 1 WHERE UserID = ?");
+            $stmt->execute(array($userid));
+            $theMsg =  '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Updated </div>';
             redirectHome($theMsg);
         }
         else{
