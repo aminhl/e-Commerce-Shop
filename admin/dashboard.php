@@ -9,22 +9,22 @@ if(isset($_SESSION['username'])){
         <h1>Dashboard</h1>
         <div class="row">
             <div class="col-md-3">
-                <div class="stat">Total Members
-                    <span><?php echo calculateItems("UserID","users")?></span>
+                <div class="stat st-members">Total Members
+                    <span><a href="members.php"><?php echo calculateItems("UserID","users")?></a></span>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stat">Pedning Members
+                <div class="stat st-pendings">Pedning Members
                     <span>25</span>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stat">Total Items
+                <div class="stat st-items">Total Items
                     <span>1500</span>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stat">Total Comments
+                <div class="stat st-comments">Total Comments
                     <span>3500</span>
                 </div>
             </div>

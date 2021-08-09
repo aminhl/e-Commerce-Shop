@@ -92,15 +92,41 @@ body{
 /* Start Dashboard Page */
 
 .home-stats .stat{
-    background-color: #eee;
-    border: 1px solid;
     padding: 20px;
     font-size: 15px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: default;
+}
+
+.home-stats .stat a {
+    color: #fff;
+
+}
+
+.home-stats .stat a:hover{
+    text-decoration: none;
 }
 
 .home-stats .stat span{
     display: block;
-    font-size: 50px;
+    font-size: 60px;
+}
+
+.home-stats .st-members{
+    background-color: #3498db;
+}
+
+.home-stats .st-pendings{
+    background-color: #c0392b;
+}
+
+.home-stats .st-items{
+    background-color: #d35400;
+}
+
+.home-stats .st-comments{
+    background-color: #8e44ad;
 }
 
 .latest{
