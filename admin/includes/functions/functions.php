@@ -53,4 +53,18 @@ function calculateItems($item,$table){
     return $stmt2->fetchColumn();
 }
 
+# Function To Get Latest Records v1.0
+# $select : Fill To Select
+# $table : Table To Choose From
+# $limit : Number Of Records To Get
+
+function getLatest($select,$table,$order,$limit = 5){
+    global $con;
+    $getstmt = $con->prepare("SELECT $select FROM $table ORDER BY $order DESC LIMIT $limit");
+    $getstmt->execute();
+    $rows = $getstmt->fetchAll();
+
+    return $rows;
+}
+
 

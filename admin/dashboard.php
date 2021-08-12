@@ -3,6 +3,8 @@ session_start();
 if(isset($_SESSION['username'])){
   $pageTitle = 'Dashboard';
   include_once 'init.php';
+
+
   ?>
   <!-- Start Dashboard Page-->
     <div class="container home-stats text-center">
@@ -34,16 +36,22 @@ if(isset($_SESSION['username'])){
         <div class="row">
             <div class="col-sm-6">
                 <div class="panel panel-default">
+                    <?php $latestUser = 5; ?>
                     <div class="panel-heading">
-                        <i class="fa fa-users">Latest Registered Users</i>
+                        <i class="fa fa-users"> Latest <?php echo $latestUser; ?> Registered Users</i>
                     </div>
-                    <div class="panel-body">User</div>
+                    <div class="panel-body">
+                       <?php $theLatest = getLatest("*","users","UserID",$latestUser);
+                        foreach ($theLatest as $user){
+                        echo $user['UserName'] . '</br>';
+                        } ?>
+                    </div>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <i class="fa fa-tag">Latest Items</i>
+                        <i class="fa fa-tag"> Latest Items</i>
                     </div>
                     <div class="panel-body">Item</div>
                 </div>
