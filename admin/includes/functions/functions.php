@@ -26,7 +26,7 @@ function redirectHome ($errorMsg,$url = null ,$seconds = 3){
     }
     echo $errorMsg;
     echo "<div class='alert alert-info'>You Will Be Redirected To $link After $seconds Seconds.</div>";
-    header("refresh:$seconds;url=$url");
+    header("refresh:$seconds,url=$url");
     exit();
 }
 

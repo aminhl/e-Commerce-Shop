@@ -15,7 +15,7 @@ if(isset($_SESSION['username'])){
             </div>
             <div class="col-md-3">
                 <div class="stat st-pendings">Pedning Members
-                    <span><a href="members.php?page=Pending">25</a></span>
+                    <span><a href="members.php?page=Pending"><?php echo checkItem("RegStatus","users",0)?></a></span>
                 </div>
             </div>
             <div class="col-md-3">
