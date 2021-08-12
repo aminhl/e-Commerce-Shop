@@ -56,6 +56,7 @@ function calculateItems($item,$table){
 # Function To Get Latest Records v1.0
 # $select : Fill To Select
 # $table : Table To Choose From
+# $order : The Ordering
 # $limit : Number Of Records To Get
 
 function getLatest($select,$table,$order,$limit = 5){
