@@ -155,7 +155,7 @@ if (isset($_SESSION['username'])) {
 
               else{
                   # Insert Data Base
-                  $stmt = $con->prepare("INSERT INTO users(UserName,Password,Email,FullName,RegStatus,Date) VALUES(:user, :pass, :email, :name, 1, now())");
+                  $stmt = $con->prepare("INSERT INTO users(UserName,Password,Email,FullName,RegStatus,Date) VALUES(:user, :pass, :email, :name, 0, now())");
                   $stmt->execute(array(
                       'user' => $user,
                       'pass' => $hashedPass,
