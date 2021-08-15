@@ -8,8 +8,28 @@ if (isset($_SESSION['username'])){
     $do = isset($_GET['do']) ? $_GET['do'] : 'Manage';
 
     if ($do == 'Manage'){
-
-    }
+        $statement = $con->prepare("SELECT * FROM categories");
+        $statement->execute();
+        $cats = $statement->fetchAll(); ?>
+        <h1 class="text-center">Manage Categories</h1>
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading">Manage Categories</div>
+                <div class="panel-body">
+                   <?php
+                   foreach ($cats as $cat){
+                       echo $cat['Name'] . '</br>';
+                       echo $cat['Description'] . '</br>';
+                       echo $cat['Ordering'] . '</br>';
+                       echo $cat['Visibility'] . '</br>';
+                       echo $cat['Allow_Comment'] . '</br>';
+                       echo $cat['Allow_Ads'] . '</br>';
+                   }
+                   ?>
+                </div>
+            </div>
+        </div>
+    <?php }
     elseif($do == 'Edit'){
 
     }
