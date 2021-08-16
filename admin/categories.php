@@ -12,18 +12,20 @@ if (isset($_SESSION['username'])){
         $statement->execute();
         $cats = $statement->fetchAll(); ?>
         <h1 class="text-center">Manage Categories</h1>
-        <div class="container">
+        <div class="container categories">
             <div class="panel panel-default">
                 <div class="panel-heading">Manage Categories</div>
                 <div class="panel-body">
                    <?php
                    foreach ($cats as $cat){
-                       echo $cat['Name'] . '</br>';
-                       echo $cat['Description'] . '</br>';
-                       echo $cat['Ordering'] . '</br>';
-                       echo $cat['Visibility'] . '</br>';
-                       echo $cat['Allow_Comment'] . '</br>';
-                       echo $cat['Allow_Ads'] . '</br>';
+                       echo '<div class="cat">';
+                       echo '<h3>'. $cat['Name'] . '</h3>';
+                       echo '<p>'; if ($cat['Description'] == '') {echo 'This Category No Description';} else { echo $cat['Description'];}  echo  '</p>';
+                       if ($cat['Visibility'] == 1) {echo '<span class="visibility">Hidden</span>';}
+                       if ($cat['Allow_Comment'] == 1) {echo '<span class="commenting">Comment Disabled</span>';}
+                       if ($cat['Allow_Ads'] == 1) {echo '<span class="advertises">Ads Disabled</span>';}
+                       echo '</div>';
+                       echo '<hr>';
                    }
                    ?>
                 </div>
