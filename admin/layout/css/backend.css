@@ -198,6 +198,50 @@ h1{
 
 /* Start Categories Page */
 
+.categories .panel-body{
+    padding: 0;
+}
+
+.categories .ordering a{
+    color: #888;
+    text-decoration: none;
+}
+
+.categories .ordering a.active{
+    color: #f00;
+}
+
+.categories hr{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.categories .cat{
+    padding: 15px;
+    position: relative;
+    overflow: hidden;
+    transition: background-color .2s;
+}
+
+.categories .cat:hover{
+    background-color: #eee;
+}
+
+.categories .cat:hover .hidden-buttons{
+    right: 10px;
+}
+
+.categories .cat .hidden-buttons{
+    position: absolute;
+    top: 15px;
+    right: -120px;
+    transition: all .5s ease-in-out;
+}
+
+.categories .cat .hidden-buttons a{
+    margin-right: 5px;
+}
+
 .categories .cat h3{
     margin: 0 0 10px;
 }
@@ -214,6 +258,7 @@ h1{
     padding: 4px 6px;
     margin-right: 10px;
     border-radius: 6px;
+    cursor: default;
 }
 
 .categories .cat .visibility{
