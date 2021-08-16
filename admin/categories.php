@@ -59,6 +59,7 @@ if (isset($_SESSION['username'])){
             <h1 class="text-center">Edit Category</h1>
             <div class="container">
                 <form class="form-horizontal" action="?do=Update" method="post">
+                    <input type="hidden" name="catid" value="<?php echo $cat['ID']?>">
                     <!--Start Name Filed-->
                     <div class="form-group form-group-lg">
                         <label class="col-sm-2 control-label">Name</label>
@@ -148,7 +149,30 @@ if (isset($_SESSION['username'])){
     }
 
     elseif ($do == 'Update'){
+        echo  '<h1 class="text-center">Update Category</h1>';
+        echo '<div class="container">';
+        if ($_SERVER['REQUEST_METHOD']=='POST'){
+            # Get Variables From The Form
+            $id = $_POST['catid'];
+            $name = $_POST['name'];
+            $desc = $_POST['description'];
+            $order = $_POST['ordering'];
+            $visible = $_POST['visibility'];
+            $comment = $_POST['commenting'];
+            $ads = $_POST['ads'];
 
+
+                $stmt = $con->prepare("UPDATE categories SET Name = ? ,Description = ? , Ordering = ? , Visibility = ? , Allow_Comment = ? , Allow_Ads = ?  WHERE ID = ? ");
+                $stmt->execute(array($name,$desc,$order,$visible,$comment,$ads,$id));
+                $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Updated </div>';
+                redirectHome($theMsg,'Previous');
+
+        }
+        else{
+            $theMsg = '<div class="alert alert-danger">U Re Not Authorized To Be Here</div>';
+            redirectHome($theMsg);
+        }
+        echo '</div>';
     }
 
     elseif($do == 'Add'){ ?>
