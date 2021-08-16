@@ -273,4 +273,9 @@ h1{
     background-color: #c0392b;
 }
 
+.categories .add-category{
+    margin-top: -10px;
+    margin-bottom: 30px;
+}
+
 /* End Categories Page */

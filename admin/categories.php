@@ -33,7 +33,7 @@ if (isset($_SESSION['username'])){
                        echo '<div class="cat">';
                        echo '<div class="hidden-buttons">';
                        echo '<a href="categories.php?do=Edit&catid='. $cat['ID'] . '" class="btn btn-xs btn-primary"><i class="fa fa-edit"></i> Edit</a>';
-                       echo '<a href="#" class="btn btn-xs btn-danger"><i class="fa fa-close"></i> Delete</a>';
+                       echo '<a href="categories.php?do=Delete&catid=' . $cat['ID'] . '" class="confirm btn btn-xs btn-danger"><i class="fa fa-close"></i> Delete</a>';
                        echo '</div>';
                        echo '<h3>'. $cat['Name'] . '</h3>';
                        echo '<p>'; if ($cat['Description'] == '') {echo 'This Category No Description';} else { echo $cat['Description'];}  echo  '</p>';
@@ -46,6 +46,7 @@ if (isset($_SESSION['username'])){
                    ?>
                 </div>
             </div>
+            <a href="categories.php?do=Add" class="add-category btn btn-primary"><i class="fa fa-plus"></i> Add New Category</a>
         </div>
     <?php }
     elseif($do == 'Edit'){ ?>
@@ -304,7 +305,23 @@ if (isset($_SESSION['username'])){
     }
 
     elseif($do == 'Delete'){
+        echo  '<h1 class="text-center">Delete Member</h1>';
+        echo '<div class="container">';
+        $catid = (isset($_GET['catid']) && is_numeric($_GET['catid'])) ?  intval($_GET['catid']) : 0;
+        $check = checkItem('ID','categories',$catid);
 
+        if($check > 0){
+            $stmt = $con->prepare("DELETE FROM categories WHERE ID = :catid");
+            $stmt->bindParam(":catid",$catid);
+            $stmt->execute();
+            $theMsg =  '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Deleted </div>';
+            redirectHome($theMsg);
+        }
+        else{
+            $theMsg =  '<div class="alert alert-danger">This Id Doesn\'t Exist</div>';
+            redirectHome($theMsg);
+        }
+        echo '</div>';
     }
 
     include_once $tpl . 'footer.php';
