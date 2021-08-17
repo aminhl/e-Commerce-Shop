@@ -1,6 +1,8 @@
 $(function (){
     'use strict';
 
+
+
    /* Hide Placeholder on focus state */
     $('[placeholder]').focus(function () {
 
@@ -11,6 +13,14 @@ $(function (){
     }).blur(function () {
 
         $(this).attr('placeholder', $(this).attr('data-text'));
+
+    });
+
+    // Trigger The Selectboxit
+
+    $("select").selectBoxIt({
+
+        autoWidth: false
 
     });
 
