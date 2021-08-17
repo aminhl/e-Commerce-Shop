@@ -202,18 +202,24 @@ h1{
     padding: 0;
 }
 
-.categories .ordering a{
+.categories .option a{
     color: #888;
     text-decoration: none;
 }
 
-.categories .ordering a.active{
+.categories .option span{
+    color: #888;
+    cursor: pointer;
+}
+
+.categories .option .active{
     color: #f00;
+    font-weight: bold;
 }
 
 .categories hr{
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .categories .cat{
@@ -243,7 +249,12 @@ h1{
 }
 
 .categories .cat h3{
-    margin: 0 0 10px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.categories .cat .full-view p{
+    margin: 10px 0;
 }
 
 .categories .cat:last-of-type ~ hr{

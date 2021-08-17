@@ -21,10 +21,13 @@ if (isset($_SESSION['username'])){
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Manage Categories
-                    <div class="ordering pull-right">
+                    <div class="option pull-right">
                         Ordering :
                         <a class="<?php if ($sort == 'ASC') { echo 'active';} ?>" href="?sort=ASC">Asc</a> |
                         <a class="<?php if ($sort == 'DESC') { echo 'active';} ?>" href="?sort=DESC">Desc</a>
+                        View :  <span class="active" data-view="full">Full</span>
+                                <span data-view="classic">Classic</span> |
+
                     </div>
                 </div>
                 <div class="panel-body">
@@ -36,10 +39,12 @@ if (isset($_SESSION['username'])){
                        echo '<a href="categories.php?do=Delete&catid=' . $cat['ID'] . '" class="confirm btn btn-xs btn-danger"><i class="fa fa-close"></i> Delete</a>';
                        echo '</div>';
                        echo '<h3>'. $cat['Name'] . '</h3>';
-                       echo '<p>'; if ($cat['Description'] == '') {echo 'This Category No Description';} else { echo $cat['Description'];}  echo  '</p>';
-                       if ($cat['Visibility'] == 1) {echo '<span class="visibility">Hidden</span>';}
-                       if ($cat['Allow_Comment'] == 1) {echo '<span class="commenting">Comment Disabled</span>';}
-                       if ($cat['Allow_Ads'] == 1) {echo '<span class="advertises">Ads Disabled</span>';}
+                       echo '<div class="full-view">';
+                           echo '<p>'; if ($cat['Description'] == '') {echo 'This Category No Description';} else { echo $cat['Description'];}  echo  '</p>';
+                           if ($cat['Visibility'] == 1) {echo '<span class="visibility">Hidden</span>';}
+                           if ($cat['Allow_Comment'] == 1) {echo '<span class="commenting">Comment Disabled</span>';}
+                           if ($cat['Allow_Ads'] == 1) {echo '<span class="advertises">Ads Disabled</span>';}
+                       echo '</div>';
                        echo '</div>';
                        echo '<hr>';
                    }
