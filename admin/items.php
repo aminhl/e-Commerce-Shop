@@ -23,7 +23,7 @@ if (isset($_SESSION['username'])){
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Name</label>
                     <div class="col-sm-10 col-md-6">
-                        <input class="form-control" type="text" name="name" autocomplete="off" required="required" placeholder="Type Item's Name">
+                        <input class="form-control" type="text" name="name" autocomplete="off" placeholder="Type Item's Name">
                     </div>
                 </div>
                 <!--End Name Filed-->
@@ -31,7 +31,7 @@ if (isset($_SESSION['username'])){
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-10 col-md-6">
-                        <input class="form-control" type="text" name="description" autocomplete="off" required="required" placeholder="Type Item's Description">
+                        <input class="form-control" type="text" name="description" autocomplete="off" placeholder="Type Item's Description">
                     </div>
                 </div>
                 <!--End Description Filed-->
@@ -39,7 +39,7 @@ if (isset($_SESSION['username'])){
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Price</label>
                     <div class="col-sm-10 col-md-6">
-                        <input class="form-control" type="text" name="price" autocomplete="off" required="required" placeholder="Type Item's Price">
+                        <input class="form-control" type="text" name="price" autocomplete="off" placeholder="Type Item's Price">
                     </div>
                 </div>
                 <!--End Price Field -->
@@ -47,7 +47,7 @@ if (isset($_SESSION['username'])){
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Country</label>
                     <div class="col-sm-10 col-md-6">
-                        <input class="form-control" type="text" name="country" autocomplete="off" required="required" placeholder="Type Item's Country">
+                        <input class="form-control" type="text" name="country" autocomplete="off" placeholder="Type Item's Country">
                     </div>
                 </div>
                 <!--End Country -->
@@ -76,7 +76,62 @@ if (isset($_SESSION['username'])){
         </div>
    <?php }
     elseif ($do == 'Insert'){
+        if ($_SERVER['REQUEST_METHOD']=='POST'){
+            echo  '<h1 class="text-center">Add Member</h1>';
+            echo '<div class="container">';
+            # Get Variables From The Form
+            $name = $_POST['name'];
+            $desc = $_POST['description'];
+            $price = $_POST['price'];
+            $country = $_POST['country'];
+            $status = $_POST['status'];
 
+            # Validation Form
+            $formErrors = array();
+            if (empty($name)){
+                $formErrors[] = 'Name Can\'t Be <strong>Empty</strong>';
+            }
+            if (empty($desc)) {
+                $formErrors[] = 'Description Can\'t Be <strong>Empty</strong>';
+            }
+            if(empty($price)){
+                $formErrors[] = 'Price Can\'t Be <strong>Empty</strong>';
+            }
+            if(empty($country)){
+                $formErrors[] = 'Country Can\'t Be <strong>Empty</strong>';
+            }
+            if($status == 0){
+                $formErrors[] = 'Status Can\'t Be <strong>0</strong>';
+            }
+
+            foreach ($formErrors as $error){
+                echo '<div class="alert alert-danger">' . $error . '</div>';
+            }
+
+            # Check If There's No Error
+            if (empty($formErrors)){
+
+            # Insert Data Base
+            $stmt = $con->prepare("INSERT INTO items(Name,Description,Price,Country,Status,Add_Date) VALUES(:name, :desc, :price, :country, :status, now())");
+            $stmt->execute(array(
+                'name' => $name,
+                'desc' => $desc,
+                'price' => $price,
+                'country' => $country,
+                'status' => $status,
+            ));
+            $theMsg =  '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Inserted </div>';
+            redirectHome($theMsg,'Previous');
+
+            }
+        }
+        else{
+            echo '<div class="container">';
+            $theMsg =  '<div class="alert alert-danger">U Can\'t Browse This Page Directly</div>';
+            redirectHome($theMsg);
+            echo '</div>';
+        }
+        echo '</div>';
     }
     elseif ($do == 'Delete'){
 
