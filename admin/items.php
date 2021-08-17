@@ -65,21 +65,6 @@ if (isset($_SESSION['username'])){
                     </div>
                 </div>
                 <!--End Status Field -->
-                <!--Start Rating Filed-->
-                <div class="form-group form-group-lg">
-                    <label class="col-sm-2 control-label">Rating</label>
-                    <div class="col-sm-10 col-md-6">
-                        <select class="form-control" name="rating">
-                            <option value="0" >...</option>
-                            <option value="1">*</option>
-                            <option value="1">**</option>
-                            <option value="1">***</option>
-                            <option value="1">****</option>
-                            <option value="1">*****</option>
-                        </select>
-                    </div>
-                </div>
-                <!--End Rating Field -->
                 <!--Start Submit Filed-->
                 <div class="form-group form-group-lg">
                     <div class="col-sm-offset-2 col-sm-10">
