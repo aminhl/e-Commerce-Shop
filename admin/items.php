@@ -65,6 +65,42 @@ if (isset($_SESSION['username'])){
                     </div>
                 </div>
                 <!--End Status Field -->
+                <!--Start Members Filed-->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Members</label>
+                    <div class="col-sm-10 col-md-6">
+                        <select name="members">
+                            <option value="0" >...</option>
+                            <?php
+                                $stmt = $con->prepare("SELECT * FROM users ");
+                                $stmt->execute();
+                                $users = $stmt->fetchAll();
+                                foreach ($users as $user){
+                                    echo "<option value = '" . $user['UserID'] . "'>" .  $user['UserName'] . "</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <!--End Members Field -->
+                <!--Start Categories Filed-->
+                <div class="form-group form-group-lg">
+                    <label class="col-sm-2 control-label">Categories</label>
+                    <div class="col-sm-10 col-md-6">
+                        <select name="categories">
+                            <option value="0" >...</option>
+                            <?php
+                            $stmt2 = $con->prepare("SELECT * FROM categories ");
+                            $stmt2->execute();
+                            $cats = $stmt2->fetchAll();
+                            foreach ($cats as $cat){
+                                echo "<option value = '" . $cat['ID'] . "'>" .  $cat['Name'] . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <!--End Categories Field -->
                 <!--Start Submit Filed-->
                 <div class="form-group form-group-lg">
                     <div class="col-sm-offset-2 col-sm-10">
