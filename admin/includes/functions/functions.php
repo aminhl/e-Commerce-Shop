@@ -48,7 +48,7 @@ function checkItem($select,$from,$value){
 # $table : Table To Choose From
 function calculateItems($item,$table){
     global $con;
-    $stmt2 = $con->prepare('SELECT COUNT(UserID) FROM users');
+    $stmt2 = $con->prepare("SELECT COUNT($item) FROM $table");
     $stmt2->execute();
     return $stmt2->fetchColumn();
 }

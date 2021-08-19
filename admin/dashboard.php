@@ -23,7 +23,7 @@ if(isset($_SESSION['username'])){
             </div>
             <div class="col-md-3">
                 <div class="stat st-items">Total Items
-                    <span>1500</span>
+                    <span><a href="items.php"><?php echo calculateItems("Item_ID","items")?></a></span>
                 </div>
             </div>
             <div class="col-md-3">

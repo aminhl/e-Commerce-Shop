@@ -30,7 +30,7 @@ if (isset($_SESSION['username'])) {
             <div class="table-responsive">
                 <table class="main-table table table-bordered text-center">
                     <tr>
-                        <td>#ID</td>
+                        <td>ID</td>
                         <td>Username</td>
                         <td>Email</td>
                         <td>Full Name</td>

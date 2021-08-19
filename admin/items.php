@@ -7,8 +7,43 @@ if (isset($_SESSION['username'])){
     $do = isset($_GET['do']) ? $_GET['do'] : 'Manage';
 
     if ($do == 'Manage'){
-        echo 'Manage Items Page';
-    }
+
+        # Select All User Expect Admins
+        $stmt = $con->prepare("SELECT * FROM items");
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+        ?>
+        <h1 class="text-center">Manage Items</h1>
+        <div class="container">
+            <div class="table-responsive">
+                <table class="main-table table table-bordered text-center">
+                    <tr>
+                        <td>ID</td>
+                        <td>Name</td>
+                        <td>Description</td>
+                        <td>Price</td>
+                        <td>Adding Date</td>
+                        <td>Control</td>
+                    </tr>
+
+                    <?php
+                    foreach ($items as $item) {
+                        echo '<tr>';
+                        echo '<td>' . $item["Item_ID"] . '</td>';
+                        echo '<td> ' . $item["Name"] . '</td>';
+                        echo '<td> ' . $item["Description"] . '</td>';
+                        echo '<td> ' . $item["Price"] . '</td>';
+                        echo '<td>' . $item["Add_Date"] . '</td>';
+                        echo '<td>   <a href="members.php?do=Edit&itemid='. $item["Item_ID"] .'" class="btn btn-success"><i class="fa fa-edit"></i> Edit</a> <a href="members.php?do=Delete&userid='. $item["Item_ID"] .'" class="btn btn-danger confirm"><i class="fa fa-close"></i> Delete</a>';
+                        echo  '</td>';
+                        echo '</tr>';
+                    }
+                    ?>
+                </table>
+            </div>
+            <a href="?do=Add" class="btn btn-primary"><i class="fa fa-plus"> </i> New Item</a>
+        </div>
+    <?php }
     elseif ($do == 'Edit'){
 
     }
@@ -69,7 +104,7 @@ if (isset($_SESSION['username'])){
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Members</label>
                     <div class="col-sm-10 col-md-6">
-                        <select name="members">
+                        <select name="member">
                             <option value="0" >...</option>
                             <?php
                                 $stmt = $con->prepare("SELECT * FROM users ");
@@ -87,7 +122,7 @@ if (isset($_SESSION['username'])){
                 <div class="form-group form-group-lg">
                     <label class="col-sm-2 control-label">Categories</label>
                     <div class="col-sm-10 col-md-6">
-                        <select name="categories">
+                        <select name="category">
                             <option value="0" >...</option>
                             <?php
                             $stmt2 = $con->prepare("SELECT * FROM categories ");
@@ -121,6 +156,8 @@ if (isset($_SESSION['username'])){
             $price = $_POST['price'];
             $country = $_POST['country'];
             $status = $_POST['status'];
+            $member = $_POST['member'];
+            $category = $_POST['category'];
 
             # Validation Form
             $formErrors = array();
@@ -139,6 +176,12 @@ if (isset($_SESSION['username'])){
             if($status == 0){
                 $formErrors[] = 'Status Can\'t Be <strong>0</strong>';
             }
+            if($member == 0){
+                $formErrors[] = 'Member Can\'t Be <strong>Empty</strong>';
+            }
+            if($category == 0){
+                $formErrors[] = 'Category Can\'t Be <strong>Empty</strong>';
+            }
 
             foreach ($formErrors as $error){
                 echo '<div class="alert alert-danger">' . $error . '</div>';
@@ -148,13 +191,15 @@ if (isset($_SESSION['username'])){
             if (empty($formErrors)){
 
             # Insert Data Base
-            $stmt = $con->prepare("INSERT INTO items(Name,Description,Price,Country,Status,Add_Date) VALUES(:name, :desc, :price, :country, :status, now())");
+            $stmt = $con->prepare("INSERT INTO items(Name,Description,Price,Country,Status,Add_Date,Cat_ID,Member_ID) VALUES(:name, :desc, :price, :country, :status, now(),:categ,:memb)");
             $stmt->execute(array(
                 'name' => $name,
                 'desc' => $desc,
                 'price' => $price,
                 'country' => $country,
                 'status' => $status,
+                'categ' => $category,
+                'memb' => $member,
             ));
             $theMsg =  '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Inserted </div>';
             redirectHome($theMsg,'Previous');
