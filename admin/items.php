@@ -23,24 +23,28 @@ if (isset($_SESSION['username'])){
                         <td>Description</td>
                         <td>Price</td>
                         <td>Category</td>
+                        <td>Country</td>
                         <td>UserName</td>
                         <td>Adding Date</td>
                         <td>Control</td>
                     </tr>
 
                     <?php
-                    foreach ($items as $item) {
-                        echo '<tr>';
+                    foreach($items as $item) {
+                        echo "<tr>";
                         echo '<td>' . $item["Item_ID"] . '</td>';
                         echo '<td> ' . $item["Name"] . '</td>';
                         echo '<td> ' . $item["Description"] . '</td>';
                         echo '<td> ' . $item["Price"] . '</td>';
                         echo '<td> ' . $item["category_name"] . '</td>';
+                        echo '<td> ' . $item["Country"] . '</td>';
                         echo '<td> ' . $item["UserName"] . '</td>';
                         echo '<td>' . $item["Add_Date"] . '</td>';
-                        echo '<td>   <a href="members.php?do=Edit&itemid='. $item["Item_ID"] .'" class="btn btn-success"><i class="fa fa-edit"></i> Edit</a> <a href="members.php?do=Delete&userid='. $item["Item_ID"] .'" class="btn btn-danger confirm"><i class="fa fa-close"></i> Delete</a>';
-                        echo  '</td>';
-                        echo '</tr>';
+                        echo "<td>
+                        <a href='items.php?do=Edit&itemid=" . $item['Item_ID'] . "' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
+                        <a href='items.php?do=Delete&itemid=" . $item['Item_ID'] . "' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete </a>";
+                        echo "</td>";
+                        echo "</tr>";
                     }
                     ?>
                 </table>
@@ -55,9 +59,10 @@ if (isset($_SESSION['username'])){
                 $item = $stmt->fetch();
                 $count = $stmt->rowCount();
                 if($count > 0){   ?>
-                    <h1 class="text-center">Add Item</h1>
+                    <h1 class="text-center">Edit Item</h1>
                     <div class="container">
                         <form class="form-horizontal" action="?do=Insert" method="post">
+                            <input type="hidden" name="itemid" value="<?php echo $itemid;?>">
                             <!--Start Name Filed-->
                             <div class="form-group form-group-lg">
                                 <label class="col-sm-2 control-label">Name</label>
@@ -147,7 +152,7 @@ if (isset($_SESSION['username'])){
                             <!--Start Submit Filed-->
                             <div class="form-group form-group-lg">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <input class="btn btn-primary" type="submit" value="Add Item">
+                                    <input class="btn btn-primary" type="submit" value="Edit Item">
                                 </div>
                             </div>
                             <!--End Submit Field-->
@@ -162,7 +167,61 @@ if (isset($_SESSION['username'])){
                 }
     }
     elseif ($do == 'Update'){
+        echo  '<h1 class="text-center">Update Item</h1>';
+        echo '<div class="container">';
+        if ($_SERVER['REQUEST_METHOD']=='POST'){
+            # Get Variables From The Form
+            $id = $_POST['itemid'];
+            $name = $_POST['name'];
+            $desc = $_POST['description'];
+            $price = $_POST['price'];
+            $country = $_POST['country'];
+            $status = $_POST['status'];
+            $category = $_POST['category'];
+            $member = $_POST['member'];
 
+            $formErrors = array();
+            if (empty($name)){
+                $formErrors[] = 'Name Can\'t Be <strong>Empty</strong>';
+            }
+            if (empty($desc)) {
+                $formErrors[] = 'Description Can\'t Be <strong>Empty</strong>';
+            }
+            if(empty($price)){
+                $formErrors[] = 'Price Can\'t Be <strong>Empty</strong>';
+            }
+            if(empty($country)){
+                $formErrors[] = 'Country Can\'t Be <strong>Empty</strong>';
+            }
+            if($status == 0){
+                $formErrors[] = 'Status Can\'t Be <strong>0</strong>';
+            }
+            if($member == 0){
+                $formErrors[] = 'Member Can\'t Be <strong>Empty</strong>';
+            }
+            if($category == 0){
+                $formErrors[] = 'Category Can\'t Be <strong>Empty</strong>';
+            }
+
+            foreach ($formErrors as $error){
+                echo '<div class="alert alert-danger">' . $error . '</div>';
+            }
+
+
+            # Check If There's No Error
+            if (empty($formErrors)){
+                # Update Data Base
+                $stmt = $con->prepare("UPDATE items SET Name = ? ,Description = ? , Price = ? , Country = ?, Status = ? , Cat_ID = ? , Member_ID = ?  WHERE Item_ID = ? ");
+                $stmt->execute(array($name,$desc,$price,$country,$status,$category,$member,$id));
+                $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Updated </div>';
+                redirectHome($theMsg,'Previous');
+            }
+        }
+        else{
+            $theMsg = '<div class="alert alert-danger">U Re Not Authorized To Be Here</div>';
+            redirectHome($theMsg);
+        }
+        echo '</div>';
     }
     elseif ($do == 'Add'){ ?>
         <h1 class="text-center">Add Item</h1>
