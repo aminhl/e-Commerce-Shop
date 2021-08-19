@@ -388,7 +388,23 @@ if (isset($_SESSION['username'])){
         echo '</div>';
     }
     elseif ($do == 'Delete'){
+        echo  '<h1 class="text-center">Delete Item</h1>';
+        echo '<div class="container">';
+        $itemid = (isset($_GET['itemid']) && is_numeric($_GET['itemid'])) ?  intval($_GET['itemid']) : 0;
+        $check = checkItem('Item_ID','items',$itemid);
 
+        if($check > 0){
+            $stmt = $con->prepare("DELETE FROM items WHERE Item_ID = :itemid");
+            $stmt->bindParam(":itemid",$itemid);
+            $stmt->execute();
+            $theMsg =  '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Deleted </div>';
+            redirectHome($theMsg);
+        }
+        else{
+            $theMsg =  '<div class="alert alert-danger">This Id Doesn\'t Exist</div>';
+            redirectHome($theMsg);
+        }
+        echo '</div>';
     }
     elseif ($do == 'Approve'){
 
