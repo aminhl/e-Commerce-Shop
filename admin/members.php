@@ -178,7 +178,7 @@ if (isset($_SESSION['username'])) {
     elseif($do == 'Edit'){ ?>
          <?php
                 $userid = (isset($_GET['userid']) && is_numeric($_GET['userid'])) ?  intval($_GET['userid']) : 0;
-                $stmt = $con->prepare("SELECT * FROM users WHERE UserId = $userid LIMIT 1");
+                $stmt = $con->prepare("SELECT * FROM users WHERE UserId = ? LIMIT 1");
                 $stmt->execute(array($userid));
                 $row = $stmt->fetch();
                 $count = $stmt->rowCount();
