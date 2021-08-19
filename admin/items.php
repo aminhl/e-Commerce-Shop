@@ -9,7 +9,7 @@ if (isset($_SESSION['username'])){
     if ($do == 'Manage'){
 
         # Select All User Expect Admins
-        $stmt = $con->prepare("SELECT * FROM items");
+        $stmt = $con->prepare("SELECT items.*,categories.Name AS category_name,users.UserName FROM items INNER JOIN categories ON categories.ID = Cat_ID INNER JOIN users on users.UserID = items.Member_ID");
         $stmt->execute();
         $items = $stmt->fetchAll();
         ?>
@@ -22,6 +22,8 @@ if (isset($_SESSION['username'])){
                         <td>Name</td>
                         <td>Description</td>
                         <td>Price</td>
+                        <td>Category</td>
+                        <td>UserName</td>
                         <td>Adding Date</td>
                         <td>Control</td>
                     </tr>
@@ -33,6 +35,8 @@ if (isset($_SESSION['username'])){
                         echo '<td> ' . $item["Name"] . '</td>';
                         echo '<td> ' . $item["Description"] . '</td>';
                         echo '<td> ' . $item["Price"] . '</td>';
+                        echo '<td> ' . $item["category_name"] . '</td>';
+                        echo '<td> ' . $item["UserName"] . '</td>';
                         echo '<td>' . $item["Add_Date"] . '</td>';
                         echo '<td>   <a href="members.php?do=Edit&itemid='. $item["Item_ID"] .'" class="btn btn-success"><i class="fa fa-edit"></i> Edit</a> <a href="members.php?do=Delete&userid='. $item["Item_ID"] .'" class="btn btn-danger confirm"><i class="fa fa-close"></i> Delete</a>';
                         echo  '</td>';
