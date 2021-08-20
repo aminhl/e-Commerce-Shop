@@ -43,6 +43,9 @@ if (isset($_SESSION['username'])){
                         echo "<td>
                         <a href='items.php?do=Edit&itemid=" . $item['Item_ID'] . "' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
                         <a href='items.php?do=Delete&itemid=" . $item['Item_ID'] . "' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete </a>";
+                        if ($item['Approve']==0){
+                            echo '<a href="items.php?do=Approve&itemid='. $item["Item_ID"] .'" class="btn btn-info activate"><i class="fa fa-check"></i> Activate</a>';
+                        }
                         echo "</td>";
                         echo "</tr>";
                     }
@@ -407,7 +410,22 @@ if (isset($_SESSION['username'])){
         echo '</div>';
     }
     elseif ($do == 'Approve'){
+        echo  '<h1 class="text-center">Approve Item</h1>';
+        echo '<div class="container">';
+        $itemid = (isset($_GET['itemid']) && is_numeric($_GET['itemid'])) ?  intval($_GET['itemid']) : 0;
+        $check = checkItem('Item_ID','items',$itemid);
 
+        if($check > 0){
+            $stmt = $con->prepare("UPDATE items SET Approve = 1 WHERE Item_ID = ?");
+            $stmt->execute(array($itemid));
+            $theMsg =  '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Approved </div>';
+            redirectHome($theMsg);
+        }
+        else{
+            $theMsg =  '<div class="alert alert-danger">This Id Doesn\'t Exist</div>';
+            redirectHome($theMsg);
+        }
+        echo '</div>';
     }
 
     include_once $tpl . 'footer.php';
