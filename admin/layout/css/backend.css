@@ -93,10 +93,23 @@ body{
 
 .home-stats .stat{
     padding: 20px;
+    position: relative;
+    overflow: hidden;
     font-size: 15px;
     border-radius: 10px;
     color: #fff;
     cursor: default;
+}
+
+.home-stats .stat i{
+    position: absolute;
+    top: 35px;
+    left: 30px;
+    font-size: 70px;
+}
+
+.home-stats .stat .info{
+    float: right;
 }
 
 .home-stats .stat a {
@@ -131,6 +144,16 @@ body{
 
 .latest{
     margin-top: 30px;
+}
+
+.latest .toggle-info{
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.latest .toggle-info:hover{
+    color: #444;
 }
 
 .latest-users{

@@ -13,23 +13,39 @@ if(isset($_SESSION['username'])){
         <h1>Dashboard</h1>
         <div class="row">
             <div class="col-md-3">
-                <div class="stat st-members">Total Members
-                    <span><a href="members.php"><?php echo calculateItems("UserID","users")?></a></span>
+                <div class="stat st-members">
+                    <i class="fa fa-users"></i>
+                    <div class="info">
+                        Total Members
+                        <span><a href="members.php"><?php echo calculateItems("UserID","users")?></a></span>
+                    </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stat st-pendings">Pedning Members
-                    <span><a href="members.php?page=Pending"><?php echo checkItem("RegStatus","users",0)?></a></span>
+                <div class="stat st-pendings">
+                    <i class="fa fa-user-plus"></i>
+                    <div class="info">
+                        Pending Members
+                        <span><a href="members.php?page=Pending"><?php echo checkItem("RegStatus","users",0)?></a></span>
+                    </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stat st-items">Total Items
-                    <span><a href="items.php"><?php echo calculateItems("Item_ID","items")?></a></span>
+                <div class="stat st-items">
+                    <i class="fa fa-tag"></i>
+                    <div class="info">
+                        Total Items
+                        <span><a href="items.php"><?php echo calculateItems("Item_ID","items")?></a></span>
+                    </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stat st-comments">Total Comments
-                    <span>0</span>
+                <div class="stat st-comments">
+                    <i class="fa fa-comments"></i>
+                    <div class="info">
+                        Total Comments
+                        <span>0</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -40,6 +56,9 @@ if(isset($_SESSION['username'])){
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-users"> Latest <?php echo $numUsers; ?> Registered Users</i>
+                        <span class="toggle-info pull-right">
+                            <i class="fa fa-plus fa-lg"></i>
+                        </span>
                     </div>
                     <div class="panel-body">
                         <ul class="list-unstyled latest-users">
@@ -50,10 +69,9 @@ if(isset($_SESSION['username'])){
                            echo '<span class="btn btn-success pull-right">';
                            echo '<i class="fa fa-edit"></i> Edit';
                            if ($user['RegStatus'] == 0) {
-                               echo "<a 
-																	href='members.php?do=Activate&userid=" . $user['UserID'] . "' 
-																	class='btn btn-info pull-right activate'>
-																	<i class='fa fa-check'></i> Activate</a>";
+                               echo "<a href='members.php?do=Activate&userid=" . $user['UserID'] . "' 
+                                        class='btn btn-info pull-right activate'>
+                                        <i class='fa fa-check'></i> Activate</a>";
                            }
                            echo '</span>';
                            echo '</a>';
@@ -67,6 +85,9 @@ if(isset($_SESSION['username'])){
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-tag"> Latest Items</i>
+                        <span class="toggle-info pull-right">
+                            <i class="fa fa-plus fa-lg"></i>
+                        </span>
                     </div>
                     <div class="panel-body">
                         <ul class="list-unstyled latest-users">
@@ -77,10 +98,9 @@ if(isset($_SESSION['username'])){
                                 echo '<span class="btn btn-success pull-right">';
                                 echo '<i class="fa fa-edit"></i> Edit';
                                 if ($item['Approve'] == 0) {
-                                    echo "<a 
-																	href='items.php?do=Approve&itemid=" . $item['Item_ID'] . "' 
-																	class='btn btn-info pull-right activate'>
-																	<i class='fa fa-check'></i> Approve</a>";
+                                    echo "<a href='items.php?do=Approve&itemid=" . $item['Item_ID'] . "' 
+                                             class='btn btn-info pull-right activate'>
+                                             <i class='fa fa-check'></i> Approve</a>";
                                 }
                                 echo '</span>';
                                 echo '</a>';
