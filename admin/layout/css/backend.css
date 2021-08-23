@@ -168,7 +168,6 @@ body{
     background-color: #eee;
 }
 
-
 .latest-users .btn-success,
 .latest-users .btn-info{
     padding: 2px 8px !important;
@@ -177,6 +176,46 @@ body{
 .latest-users .btn-info{
     margin-right: 5px;
 }
+
+.latest .comment-box{
+    margin: 5px 0 10px;
+    overflow: hidden;
+}
+
+.latest .comment-box .member-n,
+.latest .comment-box .member-c{
+    float: left;
+}
+
+.latest .comment-box .member-n{
+    width: 80px;
+    position: relative;
+    top: 4px;
+    margin-right: 20px;
+    text-align: center;
+}
+
+.latest .comment-box .member-c{
+    width: calc(100% - 100px);
+    background-color: #efefef ;
+    padding: 10px;
+    position: relative;
+}
+
+.latest .comment-box .member-c::before{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -28px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: transparent #efefef transparent transparent ;
+    border-width: 15px;
+}
+
+
 
 /* End Dashboard Page */
 

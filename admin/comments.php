@@ -115,7 +115,7 @@ if (isset($_SESSION['username'])){
             $stmt->bindParam(":comid",$comid);
             $stmt->execute();
             $theMsg =  '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Deleted </div>';
-            redirectHome($theMsg);
+            redirectHome($theMsg,'Previous');
         }
         else{
             $theMsg =  '<div class="alert alert-danger">This Id Doesn\'t Exist</div>';

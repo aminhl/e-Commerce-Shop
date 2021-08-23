@@ -7,6 +7,8 @@ if(isset($_SESSION['username'])){
     $latestUsers = getLatest("*","users","UserID",$numUsers);
     $numItems = 6;
     $latestItems = getLatest("*","items","Item_ID",$numItems);
+    $numComments = 6;
+
   ?>
   <!-- Start Dashboard Page-->
     <div class="container home-stats text-center">
@@ -84,7 +86,7 @@ if(isset($_SESSION['username'])){
             <div class="col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <i class="fa fa-tag"> Latest Items</i>
+                        <i class="fa fa-tag"> Latest <?php echo $numItems; ?> Items</i>
                         <span class="toggle-info pull-right">
                             <i class="fa fa-plus fa-lg"></i>
                         </span>
@@ -111,6 +113,33 @@ if(isset($_SESSION['username'])){
                 </div>
             </div>
         </div>
+        <!--Start Comments Row-->
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-comments"> Latest <?php echo $numComments; ?> Comments</i>
+                        <span class="toggle-info pull-right">
+                            <i class="fa fa-plus fa-lg"></i>
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                      <?php
+                        $stmt = $con->prepare("SELECT comments.*, users.UserName AS Member FROM comments INNER JOIN users ON users.UserID = comments.user_id");
+                        $stmt->execute();
+                        $comments = $stmt->fetchAll();
+                        foreach ($comments as $comment){
+                            echo '<div class="comment-box">';
+                                echo '<span class="member-n">' . $comment['Member'] . '</span>';
+                                echo '<span class="member-c">' . $comment['comment'] . '</span>';
+                            echo '</div>';
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Comments Row-->
     </div>
 
    <!--End Dashboard Page-->
